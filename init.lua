@@ -9,6 +9,14 @@ if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
 end
 
+-- squeeze tabs
+
+vim.keymap.set("n", "<Leader>>", ":vertical resize -5<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader><", function()
+    vim.cmd(":vertical resize +5")
+    print("Window narrowed by 5 columns") -- Shows at bottom
+end, { noremap = true })
+
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require("configs.lazy")
