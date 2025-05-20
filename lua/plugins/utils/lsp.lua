@@ -135,7 +135,7 @@ return {
 				omnisharp = {}, -- C#
 				ts_ls = {}, -- TypeScript and JavaScript
 				gopls = {}, -- Golang
-				solargraph = {}, -- Ruby
+				--solargraph = {}, -- Ruby
 				-- tsserver = {}, -- TypeScript and JavaScript
 				pyright = {}, -- Python
 				clangd = {}, -- C and C++
@@ -160,17 +160,23 @@ return {
 			}
 
 			require("mason").setup()
+
 			require("mason-lspconfig").setup({
 				ensure_installed = vim.tbl_keys(servers),
-				automatic_installation = true,
+				automatic_installation = false,
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
+					end,
+				},
 			})
-
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua",
 				"rustfmt",
 				"rust_analyzer",
-				"gopls",
 				"html",
 				"pyright",
 				"tailwindcss-language-server",
@@ -207,19 +213,6 @@ return {
 				filetypes = { "c", "cpp", "objc", "objcpp" },
 				capabilities = capabilities,
 				single_file_support = true,
-			})
-
-			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for tsserver)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
 			})
 		end,
 	},
