@@ -3,7 +3,10 @@
 <a href="https://dotfyle.com/codewithhippo17/nvim"><img src="https://dotfyle.com/codewithhippo17/nvim/badges/plugins?style=flat" /></a>
 <a href="https://dotfyle.com/codewithhippo17/nvim"><img src="https://dotfyle.com/codewithhippo17/nvim/badges/leaderkey?style=flat" /></a>
 <a href="https://dotfyle.com/codewithhippo17/nvim"><img src="https://dotfyle.com/codewithhippo17/nvim/badges/plugin-manager?style=flat" /></a>
-
+<br>
+![Image 1](.attachement/img1.png)
+![Image 2](.attachement/img2.png)
+![Image 3](.attachement/img3.png)
 
 ## Install Instructions
 
