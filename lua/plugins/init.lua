@@ -19,6 +19,17 @@ require("lazy").setup({
 	require("plugins.utils.noice"),
 	require("plugins.utils.utils"),
 	{
+		"mg979/vim-visual-multi",
+		branch = "master",
+		init = function()
+			vim.g.VM_default_mappings = 1
+			vim.g.VM_maps = {
+				["Find Under"] = "<C-d>",
+				["Find Subword Under"] = "<C-d>",
+			}
+		end,
+	},
+	{
 		-- c_formatter_42 plugin spec
 		dir = vim.fn.stdpath("config") .. "/lua/plugins/utils", -- Point to the directory containing c_formatter_42.lua
 		name = "c_formatter_42", -- Give it a name
