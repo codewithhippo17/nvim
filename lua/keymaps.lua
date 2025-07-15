@@ -4,6 +4,13 @@
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader>rn", function()
+	local word = vim.fn.expand("<cword>")
+	local new_name = vim.fn.input("Rename '" .. word .. "' to: ")
+	if new_name ~= "" then
+		vim.cmd(":%s/\\<" .. word .. "\\>/" .. new_name .. "/g")
+	end
+end, { desc = "Rename variable under cursor" })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })

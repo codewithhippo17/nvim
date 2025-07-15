@@ -6,15 +6,27 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.c_formatter_42_set_equalprg = 1
+
 require("lazy").setup({
 	require("plugins.colorschemes"),
 	require("plugins.utils.cmp"),
 	require("plugins.utils.git"),
 	require("plugins.utils.snacks"),
 	require("plugins.utils.lsp"),
+	require("plugins.utils.header"),
 	require("plugins.utils.formatting"),
 	require("plugins.utils.noice"),
 	require("plugins.utils.utils"),
+	{
+		-- c_formatter_42 plugin spec
+		dir = vim.fn.stdpath("config") .. "/lua/plugins/utils", -- Point to the directory containing c_formatter_42.lua
+		name = "c_formatter_42", -- Give it a name
+		ft = { "c", "cpp", "h" }, -- Only load for C/C++ files
+		config = function()
+			require("plugins.utils.c_formatter_42").setup()
+		end,
+	},
 }, {
 	ui = {
 		-- If you have a Nerd Font, set icons to an empty table which will use the

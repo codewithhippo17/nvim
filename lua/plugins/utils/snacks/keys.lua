@@ -8,25 +8,11 @@ local keys = {
 		desc = "Smart Find Files",
 	},
 	{
-		"<leader>,",
+		"<leader>b",
 		function()
 			Snacks.picker.buffers()
 		end,
 		desc = "Buffers",
-	},
-	{
-		"<leader>sg",
-		function()
-			Snacks.picker.grep()
-		end,
-		desc = "Grep",
-	},
-	{
-		"<leader>:",
-		function()
-			Snacks.picker.command_history()
-		end,
-		desc = "Command History",
 	},
 	{
 		"<leader>n",
