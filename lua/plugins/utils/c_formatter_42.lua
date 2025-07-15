@@ -63,31 +63,54 @@ end
 function M.norminette()
 	local current_file = vim.fn.expand("%:p")
 
-	vim.cmd("belowright new")
-	vim.bo.buftype = "nofile"
-	vim.bo.bufhidden = "wipe"
-	vim.bo.buflisted = false
-	vim.bo.swapfile = false
-	vim.wo.wrap = false
-
+	-- Run Norminette and get output
 	local lines = {
 		"Norminette result for " .. current_file,
 		"",
 		string.rep("-", 80),
 	}
-	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+	local output = vim.fn.systemlist("norminette " .. current_file)
+	vim.list_extend(lines, output)
 
-	local norminette_output = vim.fn.system("norminette " .. current_file)
-	vim.api.nvim_buf_set_lines(0, 3, -1, false, vim.split(norminette_output, "\n"))
+	-- Create scratch buffer
+	local buf = vim.api.nvim_create_buf(false, true)
+	if not buf then
+		return
+	end
 
-	vim.bo.modifiable = false
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+	vim.api.nvim_buf_set_option(buf, "modifiable", false)
+	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
 
-	local split_height = vim.api.nvim_buf_line_count(0)
-	split_height = math.min(math.max(split_height, 10), 30)
-	vim.cmd("silent resize " .. split_height)
-	vim.cmd("normal! gg")
+	-- Size of floating window
+	local width = math.floor(vim.o.columns * 0.6)
+	local height = math.min(#lines, math.floor(vim.o.lines * 0.6))
+	local row = math.floor((vim.o.lines - height) / 2 - 1)
+	local col = math.floor((vim.o.columns - width) / 2)
 
-	vim.keymap.set("n", "q", "<cmd>q<CR>", { buffer = true, nowait = true })
+	-- Open floating window
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		row = row,
+		col = col,
+		style = "minimal",
+		border = "rounded",
+	})
+
+	-- Floating window options
+	vim.wo[win].wrap = false
+	vim.wo[win].cursorline = true
+	vim.wo[win].number = false
+	vim.wo[win].relativenumber = false
+
+	-- Set 'q' to close the window
+	vim.keymap.set("n", "q", function()
+		if vim.api.nvim_win_is_valid(win) then
+			vim.api.nvim_win_close(win, true)
+		end
+	end, { buffer = buf, nowait = true })
 end
 
 -- Setup autocmd for norminette command
@@ -97,6 +120,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "c,cpp",
 	callback = function()
 		vim.api.nvim_buf_create_user_command(0, "Norminette", M.norminette, {})
+		vim.keymap.set("n", "<F3>", ":Norminette<CR>", { buffer = true, silent = true, desc = "Run Norminette" })
 	end,
 })
 
