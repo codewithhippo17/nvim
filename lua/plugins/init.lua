@@ -14,6 +14,8 @@ require("lazy").setup({
 	require("plugins.utils.git"),
 	require("plugins.utils.snacks"),
 	require("plugins.utils.lsp"),
+	require("plugins.utils.auto-save"),
+	require("plugins.utils.auto_session"),
 	require("plugins.utils.header"),
 	require("plugins.utils.formatting"),
 	require("plugins.utils.noice"),
