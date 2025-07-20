@@ -20,3 +20,14 @@ if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Delete Mason log file on VimEnter to keep logs clean
+vim.api.nvim_create_autocmd("VimEnter", {
+	desc = "Remove Mason log file on startup",
+	callback = function()
+		local mason_log = vim.fn.expand("~/.local/share/nvim/mason.log")
+		if vim.fn.filereadable(mason_log) == 1 then
+			os.remove(mason_log)
+		end
+	end,
+})

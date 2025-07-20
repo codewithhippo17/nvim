@@ -465,7 +465,7 @@ local keys = {
 			})
 		end,
 		desc = "Toggle Floating Terminal",
-		mode = { "n", "t" },
+		mode = { "n", "t", "i" },
 	},
 	{
 		"]]",

@@ -131,17 +131,18 @@ return {
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				intelephense = {
 					root_dir = require("lspconfig").util.root_pattern("composer.json", ".git", "*.php"),
-				}, -- PHP
-				omnisharp = {}, -- C#
-				ts_ls = {}, -- TypeScript and JavaScript
-				gopls = {}, -- Golang
+				},
+				-- PHP
+				--omnisharp = {}, -- C#
+				--ts_ls = {}, -- TypeScript and JavaScript
+				--gopls = {}, -- Golang
 				--solargraph = {}, -- Ruby
 				-- tsserver = {}, -- TypeScript and JavaScript
 				pyright = {}, -- Python
 				clangd = {}, -- C and C++
-				rust_analyzer = {}, -- Rust
-				html = {}, -- HTML
-				tailwindcss = {}, -- TailwindCSS
+				--rust_analyzer = {}, -- Rust
+				--html = {}, -- HTML
+				--tailwindcss = {}, -- TailwindCSS
 				-- cmd = {...},
 				-- filetypes { ...},
 				-- capabilities = {},

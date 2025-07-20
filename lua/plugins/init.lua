@@ -20,6 +20,7 @@ require("lazy").setup({
 	require("plugins.utils.formatting"),
 	require("plugins.utils.noice"),
 	require("plugins.utils.utils"),
+	require("plugins.utils.multi_edit"),
 	{
 		"mg979/vim-visual-multi",
 		branch = "master",
