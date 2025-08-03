@@ -11,19 +11,19 @@ return {
 	{
 		"EdenEast/nightfox.nvim",
 		config = function()
-			vim.cmd.colorscheme("everforest")
+			vim.cmd.colorscheme("github_dark_dimmed")
 		end,
 	},
 
-    {
-        "tanvirtin/monokai.nvim",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            vim.opt.termguicolors = true
-            vim.cmd.colorscheme("monokai")
-        end,
-    },
+	{
+		"tanvirtin/monokai.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.opt.termguicolors = true
+			vim.cmd.colorscheme("monokai")
+		end,
+	},
 	{
 		"folke/tokyonight.nvim",
 		-- init = function()

@@ -443,7 +443,7 @@ local keys = {
 		"<A-s>",
 		function()
 			Snacks.terminal.toggle(nil, {
-				shell = "zsh",
+				shell = "bash",
 				win = {
 					relative = "editor",
 					position = "right",
@@ -460,7 +460,7 @@ local keys = {
 	{
 		"<A-e>",
 		function()
-			Snacks.terminal.toggle("zsh", {
+			Snacks.terminal.toggle("bash", {
 				direction = "float", -- optional, setting cmd means float anyway
 			})
 		end,
