@@ -86,5 +86,13 @@ return {
 	scroll = { enabled = false },
 	scratch = { enabled = false }, -- Disable scratch buffers
 	statuscolumn = { enabled = true },
+	terminal = { 
+		enabled = true,
+		win = {
+			position = "float",
+			height = 0.8,
+			width = 0.8,
+		}
+	},
 	words = { enabled = true },
 }

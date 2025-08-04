@@ -26,15 +26,55 @@ return {
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					-- LSP Navigation (ergonomic home-row keys)
-					map("gd", function() require("snacks").picker.lsp_definitions() end, "Go to Definition")
-					map("gr", function() require("snacks").picker.lsp_references() end, "Go to References")
-					map("gi", function() require("snacks").picker.lsp_implementations() end, "Go to Implementation")
-					map("gt", function() require("snacks").picker.lsp_type_definitions() end, "Go to Type Definition")
+					-- LSP Navigation (with fallback to standard LSP)
+					map("gd", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_definitions()
+						else
+							vim.lsp.buf.definition()
+						end
+					end, "Go to Definition")
 					
-					-- Document & Workspace symbols
-					map("<leader>ds", function() require("snacks").picker.lsp_symbols() end, "Document Symbols")
-					map("<leader>ws", function() require("snacks").picker.lsp_workspace_symbols() end, "Workspace Symbols")
+					map("gr", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_references()
+						else
+							vim.lsp.buf.references()
+						end
+					end, "Go to References")
+					
+					map("gi", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_implementations()
+						else
+							vim.lsp.buf.implementation()
+						end
+					end, "Go to Implementation")
+					
+					map("gy", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_type_definitions()
+						else
+							vim.lsp.buf.type_definition()
+						end
+					end, "Go to Type Definition")
+					
+					-- Document & Workspace symbols (with fallback)
+					map("<leader>ds", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_symbols()
+						else
+							vim.lsp.buf.document_symbol()
+						end
+					end, "Document Symbols")
+					
+					map("<leader>ws", function() 
+						if pcall(require, "snacks") and require("snacks").picker then
+							require("snacks").picker.lsp_workspace_symbols()
+						else
+							vim.lsp.buf.workspace_symbol()
+						end
+					end, "Workspace Symbols")
 
 					-- LSP Actions (ergonomic)
 					map("<leader>rn", vim.lsp.buf.rename, "Rename Symbol")

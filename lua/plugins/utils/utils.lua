@@ -16,9 +16,15 @@ return {
 		},
 		config = function()
 			require("bufferline").setup()
-			-- Buffer navigation (ergonomic)
-			vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", { noremap = true, silent = true })
-			vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", { noremap = true, silent = true })
+			-- Buffer navigation with Shift+hjkl (hjkl for directional movement)
+			vim.keymap.set("n", "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<S-l>", "<Cmd>BufferLineCycleNext<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<S-j>", "<Cmd>BufferLineMoveNext<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<S-k>", "<Cmd>BufferLineMovePrev<CR>", { noremap = true, silent = true })
+			
+			-- Tab navigation (proper vim tabs)
+			vim.keymap.set("n", "<Tab>", "gt", { noremap = true, silent = true })
+			vim.keymap.set("n", "<S-Tab>", "gT", { noremap = true, silent = true })
 		end,
 	},
 

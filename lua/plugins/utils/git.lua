@@ -11,7 +11,7 @@ return {
 			virtual_text_column = 1,
 		},
 		config = function()
-			vim.keymap.set("n", "mgb", "<cmd>GitBlameToggle<CR>", { desc = "Toggle Git Blame" })
+			-- Remove duplicate keymap - handled in snacks keys
 		end,
 	},
 
