@@ -32,7 +32,7 @@ return {
 			{ section = "keys", gap = 1, padding = 1 },
 			{
 				pane = 2,
-				icon = " ",
+				icon = " ",
 				desc = "Browse Repo",
 				padding = 3,
 				key = "b",
@@ -40,7 +40,7 @@ return {
 					Snacks.gitbrowse()
 				end,
 			},
-			{ pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
+			{ pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
 			function()
 				local in_git = Snacks.git.get_root() ~= nil
 				local cmds = {
@@ -51,12 +51,12 @@ return {
 							vim.ui.open("https://github.com/notifications")
 						end,
 						key = "n",
-						icon = " ",
+						icon = " ",
 						height = 5,
 						enabled = true,
 					},
 					{
-						icon = " ",
+						icon = " ",
 						title = "Git Status",
 						cmd = "git --no-pager diff --stat -B -M -C",
 						height = 10,
@@ -84,8 +84,7 @@ return {
 	quickfile = { enabled = true },
 	scope = { enabled = true },
 	scroll = { enabled = false },
+	scratch = { enabled = false }, -- Disable scratch buffers
 	statuscolumn = { enabled = true },
 	words = { enabled = true },
-	-- styles = {
-	-- },
 }

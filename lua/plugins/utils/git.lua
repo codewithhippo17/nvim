@@ -27,19 +27,4 @@ return {
 			},
 		},
 	},
-
-	{
-		"NeogitOrg/neogit",
-		event = "VeryLazy",
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			"nvim-telescope/telescope.nvim",
-		},
-		config = function()
-			vim.keymap.set("n", "mg", "<cmd>Neogit<CR>", { desc = "Open Neogit" })
-			vim.keymap.set("n", "mc", "<cmd>Neogit commit<CR>", { desc = "Open Neogit commit" })
-		end,
-	},
 }

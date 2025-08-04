@@ -9,21 +9,25 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.c_formatter_42_set_equalprg = 1
 
 require("lazy").setup({
+	-- Essential plugins
 	require("plugins.colorschemes"),
-	require("plugins.utils.cmp"),
-	require("plugins.utils.git"),
 	require("plugins.utils.snacks"),
 	require("plugins.utils.lsp"),
+	require("plugins.utils.cmp"),
+	require("plugins.utils.formatting"),
+	require("plugins.utils.git"),
 	require("plugins.utils.auto-save"),
 	require("plugins.utils.auto_session"),
 	require("plugins.utils.header"),
-	require("plugins.utils.formatting"),
 	require("plugins.utils.noice"),
 	require("plugins.utils.utils"),
 	require("plugins.utils.multi_edit"),
+	
+	-- Visual multi (vim-visual-multi)
 	{
 		"mg979/vim-visual-multi",
 		branch = "master",
+		event = "VeryLazy",
 		init = function()
 			vim.g.VM_default_mappings = 1
 			vim.g.VM_maps = {
@@ -32,19 +36,18 @@ require("lazy").setup({
 			}
 		end,
 	},
+	
+	-- C formatter 42 (custom plugin)
 	{
-		-- c_formatter_42 plugin spec
-		dir = vim.fn.stdpath("config") .. "/lua/plugins/utils", -- Point to the directory containing c_formatter_42.lua
-		name = "c_formatter_42", -- Give it a name
-		ft = { "c", "cpp", "h" }, -- Only load for C/C++ files
+		dir = vim.fn.stdpath("config") .. "/lua/plugins/utils",
+		name = "c_formatter_42",
+		ft = { "c", "cpp", "h" },
 		config = function()
 			require("plugins.utils.c_formatter_42").setup()
 		end,
 	},
 }, {
 	ui = {
-		-- If you have a Nerd Font, set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table
 		icons = vim.g.have_nerd_font and {} or {
 			cmd = "⌘",
 			config = "🛠",
@@ -59,6 +62,17 @@ require("lazy").setup({
 			start = "🚀",
 			task = "📌",
 			lazy = "💤 ",
+		},
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
 		},
 	},
 })

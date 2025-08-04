@@ -1,0 +1,193 @@
+============================
+Neovim Configuration Summary
+============================
+
+Plugin Manager Used:
+-------------------
+- lazy.nvim (https://github.com/folke/lazy.nvim)
+
+Installed Plugins:
+------------------
+- projekt0n/github-nvim-theme
+- EdenEast/nightfox.nvim
+- tanvirtin/monokai.nvim
+- folke/tokyonight.nvim
+- sainnhe/everforest
+- catppuccin/nvim
+- hrsh7th/nvim-c󱕨mp
+- L3MON4D3/LuaSnip
+- saadparwaiz1/cmp_luasnip
+- hrsh7th/cmp-nvim-lsp
+- hrsh7th/cmp-path
+- f-person/git-blame.nvim
+- lewis6991/gitsigns.nvim
+- NeogitOrg/neogit
+- nvim-lua/plenary.nvim
+- sindrets/diffview.nvim
+- nvim-telescope/telescope.nvim
+- folke/snacks.nvim
+- neovim/nvim-lspconfig
+- hrsh7th/cmp-nvim-lsp
+- williamboman/mason.nvim
+- williamboman/mason-lspconfig.nvim
+- WhoIsSethDaniel/mason-tool-installer.nvim
+- j-hui/fidget.nvim
+- folke/neodev.nvim
+- okuuva/auto-save.nvim
+- rmagatti/auto-session
+- Diogo-ss/42-header.nvim
+- stevearc/conform.nvim
+- folke/noice.nvim
+- MunifTanjim/nui.nvim
+- nvim-tree/nvim-web-devicons
+- akinsho/bufferline.nvim
+- kristijanhusak/vim-dadbod-ui
+- tpope/vim-dadbod
+- kristijanhusak/vim-dadbod-completion
+- nvim-treesitter/nvim-treesitter
+- nvim-lualine/lualine.nvim
+- folke/todo-comments.nvim
+- xiyaowong/transparent.nvim
+- echanovski/mini.icons
+- numToStr/Comment.nvim
+- windwp/nvim-autopairs
+- folke/which-key.nvim
+- windwp/nvim-ts-autotag
+- github/copilot.vim
+- nvim-pack/nvim-spectre
+- mg979/vim-visual-multi
+- c_formatter_42 (local plugin)
+
+Key Mappings:
+-------------
+
+[Global Keymaps]
+- n  <Esc>         : <cmd>nohlsearch<CR>         (Clear search highlight)
+- n  <leader>rn    : Rename variable under cursor (function)
+- n  [d            : vim.diagnostic.goto_prev    (Go to previous diagnostic)
+- n  ]d            : vim.diagnostic.goto_next    (Go to next diagnostic)
+- n  <leader>E     : vim.diagnostic.open_float   (Show diagnostic error messages)
+- n  <leader>q     : vim.diagnostic.setloclist   (Open diagnostic quickfix list)
+- t  <Esc><Esc>    : <C-\><C-n>                 (Exit terminal mode)
+- n  <left>/<right>/<up>/<down> : <cmd>echo "nonono"<CR> (Disable arrow keys)
+- n  <C-h>/<C-l>/<C-k>/<C-j>    : <C-w><C-h/l/k/j> (Window navigation)
+- n  md            : <cmd>bd<CR>                 (Close buffer)
+- n  mgb           : <cmd>GitBlameToggle<CR>     (Toggle Git Blame)
+
+[Plugin/Module Keymaps]
+- n  mg            : <cmd>Neogit<CR>             (Open Neogit)
+- n  mc            : <cmd>Neogit commit<CR>      (Open Neogit commit)
+- n  <C-M-h/j/k/l> : Visual Multi (vim-visual-multi)
+- n  <F2>          : c_formatter_42.format       (Format C file)
+- n  <F3>          : :Norminette<CR>             (Run Norminette)
+- n  <C-M-h/j/k/l> : Visual Multi (vim-visual-multi)
+- n  <C-M-h>       : Select Cursor Left (vim-visual-multi)
+- n  <C-M-j>       : Select Cursor Down (vim-visual-multi)
+- n  <C-M-k>       : Select Cursor Up (vim-visual-multi)
+- n  <C-M-l>       : Select Cursor Right (vim-visual-multi)
+
+[Snacks Keymaps]
+- <leader><space>  : Smart Find Files
+- <leader>b        : Buffers
+- <leader>n        : Notification History
+- <leader>e        : File Explorer
+- <leader>fb       : Buffers
+- <leader>fc       : Find Config File
+- <leader>sf       : Find Files
+- <leader>fg       : Find Git Files
+- <leader>fp       : Projects
+- <leader>fr       : Recent
+- <leader>gb       : Git Branches
+- <leader>gl       : Git Log
+- <leader>gL       : Git Log Line
+- <leader>gs       : Git Status
+- <leader>gS       : Git Stash
+- <leader>gd       : Git Diff (Hunks)
+- <leader>gf       : Git Log File
+- <leader>sb       : Buffer Lines
+- <leader>sB       : Grep Open Buffers
+- <leader>sg       : Grep
+- <leader>s,       : Visual selection or word (mode: n, x)
+- <leader>s"       : Registers
+- <leader>s/       : Search History
+- <leader>sa       : Autocmds
+- <leader>sc       : Command History
+- <leader>sC       : Commands
+- <leader>sd       : Diagnostics
+- <leader>sD       : Buffer Diagnostics
+- <leader>sh       : Help Pages
+- <leader>sH       : Highlights
+- <leader>si       : Icons
+- <leader>sj       : Jumps
+- <leader>sk       : Keymaps
+- <leader>sl       : Location List
+- <leader>sm       : Marks
+- <leader>sM       : Man Pages
+- <leader>sp       : Search for Plugin Spec
+- <leader>sq       : Quickfix List
+- <leader>sR       : Resume
+- <leader>su       : Undo History
+- <leader>th       : Colorschemes
+- gd               : Goto Definition
+- gD               : Goto Declaration
+- gr               : References
+- gI               : Goto Implementation
+- gy               : Goto Type Definition
+- <leader>ss       : LSP Symbols
+- <leader>sS       : LSP Workspace Symbols
+- <leader>z        : Toggle Zen Mode
+- <leader>Z        : Toggle Zoom
+- <leader>.        : Toggle Scratch Buffer
+- <leader>S        : Select Scratch Buffer
+- <leader>N        : Neovim News
+- <leader>bd       : Delete Buffer
+- <leader>cR       : Rename File
+- <leader>gB       : Git Browse (mode: n, v)
+- <leader>gg       : Lazygit
+- <leader>un       : Dismiss All Notifications
+- <A-s>            : Toggle Right Terminal (mode: n, t)
+- <A-e>            : Toggle Floating Terminal (mode: n, t, i)
+- ]]               : Next Reference (mode: n, t)
+- [[               : Prev Reference (mode: n, t)
+
+[Other Plugin Keymaps]
+- <C-M-h/j/k/l>     : Visual Multi (vim-visual-multi)
+- <leader>tt        : :TransparentToggle<CR> (Toggle transparency)
+- <leader>ce        : :Copilot enable<CR> (Enable Copilot)
+- <leader>cd        : :Copilot disable<CR> (Disable Copilot)
+- i  <A-j>          : copilot#Accept("<CR>") (Copilot accept)
+- i  <A-w>          : <Plug>(copilot-accept-word)
+- i  <A-n>          : <Plug>(copilot-next)
+- mfr               : :Spectre<cr> (Spectre find/replace)
+
+[Completion Keymaps (nvim-cmp)]
+- i/s <A-n>, <C-n>  : Next item
+- i/s <A-p>, <C-p>  : Previous item
+- i/s <A-y>, <C-y>  : Confirm selection
+- i/s <A-space>, <C-Space> : Trigger completion
+- i/s <A-l>, <C-l>  : Expand/jump snippet
+- i/s <A-h>, <C-h>  : Jump snippet backward
+
+[Header Plugin]
+- <C-M-h>           : :Stdheader<CR> (Insert 42 Header)
+
+[Formatting]
+- n  <F2>           : Format C file (c_formatter_42)
+- n  <F3>           : :Norminette<CR> (Run Norminette)
+
+[Bufferline]
+- n  L              : BufferLineCycleNext
+- n  H              : BufferLineCyclePrev
+
+[Which-key]
+- <leader>c, <leader>d, <leader>r, <leader>s, <leader>w : Keymap groups
+
+[Many more keymaps may be defined dynamically by plugins or in plugin configs.]
+
+Notes:
+------
+- Some keymaps are buffer-local or context-specific (e.g., LSP, filetype, etc.).
+- Some plugins (like snacks.nvim) define many keymaps for pickers, search, git, etc.
+- This summary covers all statically and most dynamically defined keymaps in your config.
+
+End of summary.

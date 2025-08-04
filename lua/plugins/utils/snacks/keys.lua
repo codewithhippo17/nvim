@@ -1,7 +1,7 @@
 local keys = {
-	-- Top Pickers & Explorer
+	-- Top Pickers & Explorer (optimized for home row)
 	{
-		"<leader><space>",
+		"<leader>f",
 		function()
 			Snacks.picker.smart()
 		end,
@@ -15,11 +15,18 @@ local keys = {
 		desc = "Buffers",
 	},
 	{
-		"<leader>n",
+		"<leader>g",
 		function()
-			Snacks.picker.notifications()
+			Snacks.picker.grep()
 		end,
-		desc = "Notification History",
+		desc = "Live Grep",
+	},
+	{
+		"<leader>h",
+		function()
+			Snacks.picker.command_history()
+		end,
+		desc = "Command History",
 	},
 	{
 		"<leader>e",
@@ -28,12 +35,20 @@ local keys = {
 		end,
 		desc = "File Explorer",
 	},
+	-- Find (optimized shortcuts)
 	{
-		"<leader>fb",
+		"<leader>ff",
 		function()
-			Snacks.picker.buffers()
+			Snacks.picker.files()
 		end,
-		desc = "Buffers",
+		desc = "Find Files",
+	},
+	{
+		"<leader>fr",
+		function()
+			Snacks.picker.recent()
+		end,
+		desc = "Recent Files",
 	},
 	{
 		"<leader>fc",
@@ -43,34 +58,13 @@ local keys = {
 		desc = "Find Config File",
 	},
 	{
-		"<leader>sf",
-		function()
-			Snacks.picker.files()
-		end,
-		desc = "Find Files",
-	},
-	{
 		"<leader>fg",
 		function()
 			Snacks.picker.git_files()
 		end,
 		desc = "Find Git Files",
 	},
-	{
-		"<leader>fp",
-		function()
-			Snacks.picker.projects()
-		end,
-		desc = "Projects",
-	},
-	{
-		"<leader>fr",
-		function()
-			Snacks.picker.recent()
-		end,
-		desc = "Recent",
-	},
-	-- Git
+	-- Git (home row optimized)
 	{
 		"<leader>gb",
 		function()
@@ -86,25 +80,11 @@ local keys = {
 		desc = "Git Log",
 	},
 	{
-		"<leader>gL",
-		function()
-			Snacks.picker.git_log_line()
-		end,
-		desc = "Git Log Line",
-	},
-	{
 		"<leader>gs",
 		function()
 			Snacks.picker.git_status()
 		end,
 		desc = "Git Status",
-	},
-	{
-		"<leader>gS",
-		function()
-			Snacks.picker.git_stash()
-		end,
-		desc = "Git Stash",
 	},
 	{
 		"<leader>gd",
@@ -120,92 +100,21 @@ local keys = {
 		end,
 		desc = "Git Log File",
 	},
-	-- Grep
+	-- Search (simplified and ergonomic)
 	{
-		"<leader>sb",
-		function()
-			Snacks.picker.lines()
-		end,
-		desc = "Buffer Lines",
-	},
-	{
-		"<leader>sB",
-		function()
-			Snacks.picker.grep_buffers()
-		end,
-		desc = "Grep Open Buffers",
-	},
-	{
-		"<leader>sg",
-		function()
-			Snacks.picker.grep()
-		end,
-		desc = "Grep",
-	},
-	{
-		"<leader>s,",
+		"<leader>sw",
 		function()
 			Snacks.picker.grep_word()
 		end,
-		desc = "Visual selection or word",
+		desc = "Search Word Under Cursor",
 		mode = { "n", "x" },
 	},
-	-- Search
 	{
-		'<leader>s"',
-		function()
-			Snacks.picker.registers()
-		end,
-		desc = "Registers",
-	},
-	{
-		"<leader>s/",
-		function()
-			Snacks.picker.search_history()
-		end,
-		desc = "Search History",
-	},
-	{
-		"<leader>sa",
-		function()
-			Snacks.picker.autocmds()
-		end,
-		desc = "Autocmds",
-	},
-	{
-		"<leader>sb",
+		"<leader>sl",
 		function()
 			Snacks.picker.lines()
 		end,
-		desc = "Buffer Lines",
-	},
-	{
-		"<leader>sc",
-		function()
-			Snacks.picker.command_history()
-		end,
-		desc = "Command History",
-	},
-	{
-		"<leader>sC",
-		function()
-			Snacks.picker.commands()
-		end,
-		desc = "Commands",
-	},
-	{
-		"<leader>sd",
-		function()
-			Snacks.picker.diagnostics()
-		end,
-		desc = "Diagnostics",
-	},
-	{
-		"<leader>sD",
-		function()
-			Snacks.picker.diagnostics_buffer()
-		end,
-		desc = "Buffer Diagnostics",
+		desc = "Search Buffer Lines",
 	},
 	{
 		"<leader>sh",
@@ -215,27 +124,6 @@ local keys = {
 		desc = "Help Pages",
 	},
 	{
-		"<leader>sH",
-		function()
-			Snacks.picker.highlights()
-		end,
-		desc = "Highlights",
-	},
-	{
-		"<leader>si",
-		function()
-			Snacks.picker.icons()
-		end,
-		desc = "Icons",
-	},
-	{
-		"<leader>sj",
-		function()
-			Snacks.picker.jumps()
-		end,
-		desc = "Jumps",
-	},
-	{
 		"<leader>sk",
 		function()
 			Snacks.picker.keymaps()
@@ -243,140 +131,41 @@ local keys = {
 		desc = "Keymaps",
 	},
 	{
-		"<leader>sl",
+		"<leader>sd",
 		function()
-			Snacks.picker.loclist()
+			Snacks.picker.diagnostics()
 		end,
-		desc = "Location List",
+		desc = "Diagnostics",
 	},
 	{
-		"<leader>sm",
-		function()
-			Snacks.picker.marks()
-		end,
-		desc = "Marks",
-	},
-	{
-		"<leader>sM",
-		function()
-			Snacks.picker.man()
-		end,
-		desc = "Man Pages",
-	},
-	{
-		"<leader>sp",
-		function()
-			Snacks.picker.lazy()
-		end,
-		desc = "Search for Plugin Spec",
-	},
-	{
-		"<leader>sq",
-		function()
-			Snacks.picker.qflist()
-		end,
-		desc = "Quickfix List",
-	},
-	{
-		"<leader>sR",
+		"<leader>sr",
 		function()
 			Snacks.picker.resume()
 		end,
-		desc = "Resume",
+		desc = "Resume Last Search",
 	},
+	-- LSP & Core Functions (ergonomic)
 	{
-		"<leader>su",
-		function()
-			Snacks.picker.undo()
-		end,
-		desc = "Undo History",
-	},
-	{
-		"<leader>th",
-		function()
-			Snacks.picker.colorschemes()
-		end,
-		desc = "Colorschemes",
-	},
-	-- LSP (pickers)
-	{
-		"gd",
-		function()
-			Snacks.picker.lsp_definitions()
-		end,
-		desc = "Goto Definition",
-	},
-	{
-		"gD",
-		function()
-			Snacks.picker.lsp_declarations()
-		end,
-		desc = "Goto Declaration",
-	},
-	{
-		"gr",
-		function()
-			Snacks.picker.lsp_references()
-		end,
-		nowait = true,
-		desc = "References",
-	},
-	{
-		"gI",
-		function()
-			Snacks.picker.lsp_implementations()
-		end,
-		desc = "Goto Implementation",
-	},
-	{
-		"gy",
-		function()
-			Snacks.picker.lsp_type_definitions()
-		end,
-		desc = "Goto T[y]pe Definition",
-	},
-	{
-		"<leader>ss",
+		"<leader>ls",
 		function()
 			Snacks.picker.lsp_symbols()
 		end,
-		desc = "LSP Symbols",
+		desc = "LSP Document Symbols",
 	},
 	{
-		"<leader>sS",
+		"<leader>lw",
 		function()
 			Snacks.picker.lsp_workspace_symbols()
 		end,
 		desc = "LSP Workspace Symbols",
 	},
-	-- Other
+	-- Utility Functions
 	{
 		"<leader>z",
 		function()
 			Snacks.zen()
 		end,
 		desc = "Toggle Zen Mode",
-	},
-	{
-		"<leader>Z",
-		function()
-			Snacks.zen.zoom()
-		end,
-		desc = "Toggle Zoom",
-	},
-	{
-		"<leader>.",
-		function()
-			Snacks.scratch()
-		end,
-		desc = "Toggle Scratch Buffer",
-	},
-	{
-		"<leader>S",
-		function()
-			Snacks.scratch.select()
-		end,
-		desc = "Select Scratch Buffer",
 	},
 	{
 		"<leader>n",
@@ -386,26 +175,18 @@ local keys = {
 		desc = "Notification History",
 	},
 	{
-		"<leader>bd",
+		"<leader>x",
 		function()
 			Snacks.bufdelete()
 		end,
 		desc = "Delete Buffer",
 	},
 	{
-		"<leader>cR",
+		"<leader>r",
 		function()
 			Snacks.rename.rename_file()
 		end,
 		desc = "Rename File",
-	},
-	{
-		"<leader>gB",
-		function()
-			Snacks.gitbrowse()
-		end,
-		desc = "Git Browse",
-		mode = { "n", "v" },
 	},
 	{
 		"<leader>gg",
@@ -414,59 +195,148 @@ local keys = {
 		end,
 		desc = "Lazygit",
 	},
+	-- Terminal (ergonomic keys)
 	{
-		"<leader>un",
+		"<leader>t",
 		function()
-			Snacks.notifier.hide()
+			Snacks.terminal()
 		end,
-		desc = "Dismiss All Notifications",
+		desc = "Toggle Terminal",
 	},
-	-- {
-	-- 	"<A-a>",
-	-- 	function()
-	-- 		Snacks.terminal.toggle(nil, {
-	-- 			shell = "zsh",
-	-- 			win = {
-	-- 				relative = "editor",
-	-- 				position = "right",
-	-- 				size = { width = 0.2 },
-	-- 				border = "rounded",
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	desc = "Toggle Bottom Terminal",
-	-- 	mode = { "n", "t" },
-	-- },
-
-	-- Right (vertical)
+	-- Keymap Cheatsheet
 	{
-		"<A-s>",
+		"<leader>?",
 		function()
-			Snacks.terminal.toggle(nil, {
-				shell = "bash",
-				win = {
-					relative = "editor",
-					position = "right",
-					size = { width = 0.2 },
-					border = "rounded",
+			local lines = {
+				"# 🚀 Neovim Keymap Cheatsheet",
+				"",
+				"## 📁 Core Navigation",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <leader>f | Smart Find Files |",
+				"| <leader>b | Buffers |",
+				"| <leader>g | Live Grep |",
+				"| <leader>e | File Explorer |",
+				"| <leader>t | Toggle Terminal |",
+				"| <Tab> / <S-Tab> | Next/Previous Buffer |",
+				"| <leader>c | Close Buffer |",
+				"| <leader>x | Delete Buffer |",
+				"",
+				"## 🔍 Find & Search",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <leader>ff | Find Files |",
+				"| <leader>fr | Recent Files |",
+				"| <leader>fc | Find Config Files |",
+				"| <leader>fg | Find Git Files |",
+				"| <leader>sw | Search Word Under Cursor |",
+				"| <leader>sl | Search Buffer Lines |",
+				"| <leader>sh | Help Pages |",
+				"| <leader>sk | Keymaps |",
+				"| <leader>sd | Diagnostics |",
+				"| <leader>sr | Resume Last Search |",
+				"| <leader>sf | Find & Replace (Spectre) |",
+				"",
+				"## 🌿 Git Operations",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <leader>gg | Lazygit |",
+				"| <leader>gb | Git Branches / Git Blame |",
+				"| <leader>gl | Git Log |",
+				"| <leader>gs | Git Status |",
+				"| <leader>gd | Git Diff (Hunks) |",
+				"| <leader>gf | Git Log File |",
+				"",
+				"## 🔧 LSP & Code",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| gd | Go to Definition |",
+				"| gr | Go to References |",
+				"| gi | Go to Implementation |",
+				"| gt | Go to Type Definition |",
+				"| K | Hover Documentation |",
+				"| <leader>rn | Rename Symbol |",
+				"| <leader>ca | Code Action |",
+				"| <leader>ls | LSP Document Symbols |",
+				"| <leader>lw | LSP Workspace Symbols |",
+				"",
+				"## ⚡ Diagnostics",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <leader>j | Next Diagnostic |",
+				"| <leader>k | Previous Diagnostic |",
+				"| <leader>d | Show Diagnostic |",
+				"| <leader>q | Diagnostic Quickfix |",
+				"",
+				"## 🤖 Copilot (Insert Mode)",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <A-a> | Accept Suggestion |",
+				"| <A-w> | Accept Word |",
+				"| <A-j> | Next Suggestion |",
+				"| <A-k> | Previous Suggestion |",
+				"",
+				"## 🪟 Window Navigation",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <C-h> | Focus Left Window |",
+				"| <C-l> | Focus Right Window |",
+				"| <C-k> | Focus Upper Window |",
+				"| <C-j> | Focus Lower Window |",
+				"",
+				"## 🎯 Utilities",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <leader>z | Toggle Zen Mode |",
+				"| <leader>n | Notification History |",
+				"| <leader>r | Rename File |",
+				"| <leader>h | Command History |",
+				"| ]] / [[ | Next/Previous Reference |",
+				"",
+				"## 🌟 Special Keys",
+				"| Key | Action |",
+				"|-----|--------|",
+				"| <Esc> | Clear Search Highlight |",
+				"| <Esc><Esc> | Exit Terminal Mode |",
+				"| gc | Comment Lines (Visual) |",
+				"",
+				"Press 'q' or <Esc> to close this cheatsheet",
+			}
+			
+			-- Create a buffer with the content
+			local buf = vim.api.nvim_create_buf(false, true)
+			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+			vim.bo[buf].filetype = "markdown"
+			vim.bo[buf].modifiable = false
+			
+			-- Open in a floating window
+			Snacks.win({
+				buf = buf,
+				width = 0.8,
+				height = 0.9,
+				wo = {
+					wrap = false,
+					signcolumn = "no",
+					number = false,
+					relativenumber = false,
+				},
+				keys = {
+					q = "close",
+					["<Esc>"] = "close",
 				},
 			})
 		end,
-		desc = "Toggle Right Terminal",
-		mode = { "n", "t" },
+		desc = "Keymap Cheatsheet",
 	},
-
-	-- Floating
+	-- All Keymaps (including built-in Vim)
 	{
-		"<A-e>",
+		"<leader>K",
 		function()
-			Snacks.terminal.toggle("bash", {
-				direction = "float", -- optional, setting cmd means float anyway
-			})
+			Snacks.picker.keymaps()
 		end,
-		desc = "Toggle Floating Terminal",
-		mode = { "n", "t", "i" },
+		desc = "All Keymaps (Searchable)",
 	},
+	-- Word navigation (keep existing)
 	{
 		"]]",
 		function()
@@ -482,24 +352,6 @@ local keys = {
 		end,
 		desc = "Prev Reference",
 		mode = { "n", "t" },
-	},
-	{
-		"<leader>N",
-		desc = "Neovim News",
-		function()
-			Snacks.win({
-				file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-				width = 0.6,
-				height = 0.6,
-				wo = {
-					spell = false,
-					wrap = false,
-					signcolumn = "yes",
-					statuscolumn = " ",
-					conceallevel = 3,
-				},
-			})
-		end,
 	},
 }
 

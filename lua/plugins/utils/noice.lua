@@ -18,18 +18,8 @@ return {
 			},
 			presets = {
 				bottom_search = false,
-				-- command_palette = true,
 				long_message_to_split = true,
-				-- inc_rename = true,
 				lsp_doc_border = true,
-			},
-
-			errors = {
-				-- options for the message history that you get with `:Noice`
-				view = "notify",
-				opts = { enter = true, format = "details" },
-				filter = { error = true },
-				filter_opts = { reverse = true },
 			},
 			routes = {
 				{
@@ -48,18 +38,18 @@ return {
 							{ find = "; before #%d+" },
 						},
 					},
-					{
-						filter = {
-							event = "lsp",
-							kind = "progress",
-							cond = function(message)
-								local client = vim.tbl_get(message.opts, "progress", "client")
-								return client == "lua_ls"
-							end,
-						},
-						opts = { skip = true },
+					view = "mini",
+				},
+				{
+					filter = {
+						event = "lsp",
+						kind = "progress",
+						cond = function(message)
+							local client = vim.tbl_get(message.opts, "progress", "client")
+							return client == "lua_ls"
+						end,
 					},
-					view = "notify",
+					opts = { skip = true },
 				},
 			},
 		},
