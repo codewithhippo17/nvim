@@ -13,7 +13,9 @@ vim.opt.tabstop = 4
 -- Set the number of spaces to use for each step of (auto)indent.
 vim.opt.shiftwidth = 4
 -- Convert tabs to spaces.
-vim.opt.expandtab = true
+vim.opt.expandtab = false
+-- make sure pressing the Tab key inserts a real tab character
+vim.opt.softtabstop = 0
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.

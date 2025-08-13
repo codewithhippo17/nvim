@@ -21,7 +21,7 @@ return {
 			vim.keymap.set("n", "<S-l>", "<Cmd>BufferLineCycleNext<CR>", { noremap = true, silent = true })
 			vim.keymap.set("n", "<S-j>", "<Cmd>BufferLineMoveNext<CR>", { noremap = true, silent = true })
 			vim.keymap.set("n", "<S-k>", "<Cmd>BufferLineMovePrev<CR>", { noremap = true, silent = true })
-			
+
 			-- Tab navigation (proper vim tabs)
 			vim.keymap.set("n", "<Tab>", "gt", { noremap = true, silent = true })
 			vim.keymap.set("n", "<S-Tab>", "gT", { noremap = true, silent = true })
@@ -120,7 +120,6 @@ return {
 			vim.keymap.set("i", "<A-w>", "<Plug>(copilot-accept-word)")
 			vim.keymap.set("i", "<A-j>", "<Plug>(copilot-next)")
 			vim.keymap.set("i", "<A-k>", "<Plug>(copilot-previous)")
-			
 			vim.g.copilot_no_tab_map = true
 			vim.g.copilot_assume_mapped = true
 		end,
@@ -129,7 +128,13 @@ return {
 	{
 		"nvim-pack/nvim-spectre",
 		keys = {
-			{ "<leader>sf", function() require("spectre").toggle() end, desc = "Find & Replace" },
+			{
+				"<leader>sf",
+				function()
+					require("spectre").toggle()
+				end,
+				desc = "Find & Replace",
+			},
 		},
 		config = function()
 			require("spectre").setup({ is_block_ui_break = true })

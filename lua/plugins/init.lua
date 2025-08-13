@@ -22,7 +22,7 @@ require("lazy").setup({
 	require("plugins.utils.noice"),
 	require("plugins.utils.utils"),
 	require("plugins.utils.multi_edit"),
-	
+	require("plugins.utils.opencode"),
 	-- Visual multi (vim-visual-multi)
 	{
 		"mg979/vim-visual-multi",
@@ -36,7 +36,7 @@ require("lazy").setup({
 			}
 		end,
 	},
-	
+
 	-- C formatter 42 (custom plugin)
 	{
 		dir = vim.fn.stdpath("config") .. "/lua/plugins/utils",
