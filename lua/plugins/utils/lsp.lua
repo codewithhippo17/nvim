@@ -126,6 +126,7 @@ return {
 				pyright = {},
 				clangd = {
 					cmd = { "clangd", "--background-index", "--clang-tidy" },
+					root_dir = require("lspconfig").util.root_pattern("Makefile", ".git", "compile_commands.json"),
 					capabilities = vim.tbl_deep_extend("force", capabilities, {
 						offsetEncoding = { "utf-16" },
 					}),
