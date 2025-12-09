@@ -86,8 +86,9 @@ return {
 	scroll = { enabled = false },
 	scratch = { enabled = false }, -- Disable scratch buffers
 	statuscolumn = { enabled = true },
-	terminal = { 
+	terminal = {
 		enabled = true,
+		shell = "fish",
 		win = {
 			position = "float",
 			height = 0.8,

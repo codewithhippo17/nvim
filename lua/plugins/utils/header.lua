@@ -2,7 +2,7 @@ return {
 	"Diogo-ss/42-header.nvim",
 	cmd = { "Stdheader" },
 	keys = {
-		{ "<C-M-h>", "<cmd>Stdheader<CR>", desc = "Insert 42 Header" },
+		{ "<F4>", "<cmd>Stdheader<CR>", desc = "Insert 42 Header" },
 	},
 	opts = {
 		auto_update = true,
