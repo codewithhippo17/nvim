@@ -177,6 +177,29 @@ local keys = {
 		end,
 		desc = "LSP Workspace Symbols",
 	},
+	{
+		"gm",
+		function()
+			-- Go to man page for word under cursor
+			local word = vim.fn.expand("<cword>")
+			if word and word ~= "" then
+				-- Try to open man page for the word under cursor
+				Snacks.terminal({
+					"bash", "-c", 
+					string.format('if /usr/bin/man "%s" >/dev/null 2>&1; then /usr/bin/man "%s"; elif /usr/bin/man -M /usr/include/minilibx-linux/man "%s" >/dev/null 2>&1; then /usr/bin/man -M /usr/include/minilibx-linux/man "%s"; else echo "No manual found for: %s"; echo "Press Enter to continue..."; read; fi', word, word, word, word, word)
+				}, {
+					win = {
+						position = "float",
+						height = 0.9,
+						width = 0.9,
+					}
+				})
+			else
+				print("No word under cursor")
+			end
+		end,
+		desc = "Go to Manual (word under cursor)",
+	},
 	-- Utility Functions
 	{
 		"<leader>z",
@@ -274,8 +297,9 @@ local keys = {
 				"│   gd         ·········· Go to Definition      <leader>rn     Rename Symbol  │",
 				"│   gr         ·········· Go to References      <leader>ca     Code Action    │",
 				"│   gi         ·········· Go to Implementation  K              Hover Docs     │",
-				"│   gy         ·········· Go to Type Definition <leader>ls     Doc Symbols    │",
-				"│   <leader>lw ·········· Workspace Symbols     ]] / [[        Next/Prev Ref  │",
+				"│   gy         ·········· Go to Type Definition gm             Go to Manual    │",
+				"│   <leader>ls ·········· Doc Symbols           <leader>lw     Workspace Sym   │",
+				"│   ]] / [[    ·········· Next/Prev Reference                                   │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
