@@ -124,6 +124,37 @@ local keys = {
 		desc = "Help Pages",
 	},
 	{
+		"<leader>sM",
+		function()
+			-- Comprehensive Manual Browser - Single fzf interface for ALL manuals
+			local cmd = [[
+				(
+					/usr/bin/man -k . 2>/dev/null;
+					find /usr/include/minilibx-linux/man -name '*.1' -o -name '*.3' -o -name '*.8' 2>/dev/null | while read file; do
+						name=$(basename "$file" | sed 's/\.[0-9]$//')
+						section=$(echo "$file" | sed 's/.*\.\([0-9]\)$/\1/')
+						echo "$name ($section) - MinilibX function"
+					done;
+					find /usr/local/man -name '*.1' -o -name '*.3' -o -name '*.8' 2>/dev/null | while read file; do
+						name=$(basename "$file" | sed 's/\.[0-9]$//')
+						section=$(echo "$file" | sed 's/.*\.\([0-9]\)$/\1/')
+						echo "$name ($section) - Local manual"
+					done
+				) | sort | uniq | /home/ehamza/.fzf/bin/fzf --prompt='All Manuals> ' | 
+				/usr/bin/sed 's/^\([^(]*\)(\([^)]*\)).*/\1(\2)/' | 
+				/usr/bin/xargs -I {} sh -c '/usr/bin/man {} 2>/dev/null || /usr/bin/man -M /usr/include/minilibx-linux/man {} 2>/dev/null || /usr/bin/man -M /usr/local/man {} 2>/dev/null'
+			]]
+			Snacks.terminal(cmd, {
+				win = {
+					position = "float",
+					height = 0.9,
+					width = 0.9,
+				}
+			})
+		end,
+		desc = "All Manuals (System + Local)",
+	},
+	{
 		"<leader>sk",
 		function()
 			Snacks.picker.keymaps()
@@ -144,6 +175,7 @@ local keys = {
 		end,
 		desc = "Resume Last Search",
 	},
+
 	-- LSP & Core Functions (ergonomic)
 	{
 		"<leader>ls",
@@ -233,8 +265,9 @@ local keys = {
 				"│   <leader>ff ·········· Find Files            <leader>sw Search Word        │",
 				"│   <leader>fr ·········· Recent Files          <leader>sl Search Lines       │",
 				"│   <leader>fc ·········· Find Config Files     <leader>sh Help Pages         │",
-				"│   <leader>fg ·········· Find Git Files        <leader>sk Keymaps            │",
-				"│   <leader>sd ·········· Diagnostics           <leader>sr Resume Search      │",
+				"│   <leader>fg ·········· Find Git Files        <leader>sM All Manuals        │",
+				"│   <leader>sd ·········· Diagnostics           <leader>sk Keymaps            │",
+				"│   <leader>sr ·········· Resume Search                                        │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
