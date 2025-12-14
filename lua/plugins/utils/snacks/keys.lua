@@ -126,25 +126,11 @@ local keys = {
 	{
 		"<leader>sM",
 		function()
-			-- Comprehensive Manual Browser - Single fzf interface for ALL manuals
-			local cmd = [[
-				(
-					/usr/bin/man -k . 2>/dev/null;
-					find /usr/include/minilibx-linux/man -name '*.1' -o -name '*.3' -o -name '*.8' 2>/dev/null | while read file; do
-						name=$(basename "$file" | sed 's/\.[0-9]$//')
-						section=$(echo "$file" | sed 's/.*\.\([0-9]\)$/\1/')
-						echo "$name ($section) - MinilibX function"
-					done;
-					find /usr/local/man -name '*.1' -o -name '*.3' -o -name '*.8' 2>/dev/null | while read file; do
-						name=$(basename "$file" | sed 's/\.[0-9]$//')
-						section=$(echo "$file" | sed 's/.*\.\([0-9]\)$/\1/')
-						echo "$name ($section) - Local manual"
-					done
-				) | sort | uniq | /home/ehamza/.fzf/bin/fzf --prompt='All Manuals> ' | 
-				/usr/bin/sed 's/^\([^(]*\)(\([^)]*\)).*/\1(\2)/' | 
-				/usr/bin/xargs -I {} sh -c '/usr/bin/man {} 2>/dev/null || /usr/bin/man -M /usr/include/minilibx-linux/man {} 2>/dev/null || /usr/bin/man -M /usr/local/man {} 2>/dev/null'
-			]]
-			Snacks.terminal(cmd, {
+			-- Comprehensive manual browser with MinilibX support
+			Snacks.terminal({
+				"bash", "-c", 
+				'{ /usr/bin/man -k . 2>/dev/null; find /usr/include/minilibx-linux/man -name "*.3" 2>/dev/null | while read f; do n=$(basename "$f" .3); echo "$n (3) - MinilibX function"; done; } | sort | uniq | /home/ehamza/.fzf/bin/fzf --prompt="All Manuals> " | { read sel; if [ ! -z "$sel" ]; then page=$(echo "$sel" | /usr/bin/awk "{print \\$1}"); /usr/bin/man "$page" 2>/dev/null || /usr/bin/man -M /usr/include/minilibx-linux/man "$page"; fi; }'
+			}, {
 				win = {
 					position = "float",
 					height = 0.9,
@@ -152,7 +138,7 @@ local keys = {
 				}
 			})
 		end,
-		desc = "All Manuals (System + Local)",
+		desc = "All Manuals",
 	},
 	{
 		"<leader>sk",
