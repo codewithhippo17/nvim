@@ -16,6 +16,7 @@ require("lazy").setup({
 	require("plugins.utils.cmp"),
 	require("plugins.utils.formatting"),
 	require("plugins.utils.git"),
+	require("plugins.utils.go"), -- Added Go support
 	require("plugins.utils.auto-save"),
 	require("plugins.utils.auto_session"),
 	require("plugins.utils.header"),

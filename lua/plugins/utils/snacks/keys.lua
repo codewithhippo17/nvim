@@ -200,6 +200,119 @@ local keys = {
 		end,
 		desc = "Go to Manual (word under cursor)",
 	},
+	
+	-- Go Development (Debug & Utilities)
+	{
+		"<leader>db",
+		"<cmd>DapToggleBreakpoint<CR>",
+		desc = "Debug: Toggle Breakpoint",
+		ft = { "go" },
+	},
+	{
+		"<leader>dc",
+		"<cmd>DapContinue<CR>",
+		desc = "Debug: Continue",
+		ft = { "go" },
+	},
+	{
+		"<leader>di",
+		"<cmd>DapStepInto<CR>",
+		desc = "Debug: Step Into",
+		ft = { "go" },
+	},
+	{
+		"<leader>do",
+		"<cmd>DapStepOver<CR>",
+		desc = "Debug: Step Over", 
+		ft = { "go" },
+	},
+	{
+		"<leader>dO",
+		"<cmd>DapStepOut<CR>",
+		desc = "Debug: Step Out",
+		ft = { "go" },
+	},
+	{
+		"<leader>dr",
+		"<cmd>DapRepl<CR>",
+		desc = "Debug: Open REPL",
+		ft = { "go" },
+	},
+	{
+		"<leader>dus",
+		function()
+			local widgets = require("dap.ui.widgets")
+			local sidebar = widgets.sidebar(widgets.scopes)
+			sidebar.open()
+		end,
+		desc = "Debug: Open Sidebar",
+		ft = { "go" },
+	},
+	{
+		"<leader>dgt",
+		function()
+			require("dap-go").debug_test()
+		end,
+		desc = "Debug: Go Test",
+		ft = { "go" },
+	},
+	{
+		"<leader>dgl",
+		function()
+			require("dap-go").debug_last()
+		end,
+		desc = "Debug: Go Last Test",
+		ft = { "go" },
+	},
+	{
+		"<leader>gsj",
+		"<cmd>GoTagAdd json<CR>",
+		desc = "Go: Add JSON tags",
+		ft = { "go" },
+	},
+	{
+		"<leader>gsy",
+		"<cmd>GoTagAdd yaml<CR>",
+		desc = "Go: Add YAML tags", 
+		ft = { "go" },
+	},
+	{
+		"<leader>gst",
+		"<cmd>GoTagRm<CR>",
+		desc = "Go: Remove tags",
+		ft = { "go" },
+	},
+	{
+		"<leader>gie",
+		"<cmd>GoIfErr<CR>",
+		desc = "Go: Add if err",
+		ft = { "go" },
+	},
+	{
+		"<leader>gtj",
+		"<cmd>GoTestAdd<CR>",
+		desc = "Go: Add test for func",
+		ft = { "go" },
+	},
+	{
+		"<leader>gta",
+		"<cmd>GoTestsAll<CR>",
+		desc = "Go: Add all tests",
+		ft = { "go" },
+	},
+	{
+		"<leader>gtf",
+		"<cmd>GoTestsExp<CR>",
+		desc = "Go: Add exported tests",
+		ft = { "go" },
+	},
+	{
+		"<leader>gcf",
+		"<cmd>GoCmt<CR>",
+		desc = "Go: Generate comment",
+		ft = { "go" },
+	},
+	
 	-- Utility Functions
 	{
 		"<leader>z",
@@ -318,6 +431,19 @@ local keys = {
 				"│                                                                             │",
 				"│   <C-h/l>    ·········· Focus Left/Right      <C-A-h/l>      Resize Width   │",
 				"│   <C-j/k>    ·········· Focus Up/Down         <C-A-j/k>      Resize Height  │",
+				"│                                                                             │",
+				"╰─────────────────────────────────────────────────────────────────────────────╯",
+				"",
+				"╭─────────────────────────────────────────────────────────────────────────────╮",
+				"│                             🚀 GO DEVELOPMENT                               │",
+				"├─────────────────────────────────────────────────────────────────────────────┤",
+				"│                                                                             │",
+				"│   <leader>db ·········· Debug Breakpoint      <leader>gsj ·· Add JSON Tags   │",
+				"│   <leader>dc ·········· Debug Continue        <leader>gsy ·· Add YAML Tags   │",
+				"│   <leader>di ·········· Debug Step Into       <leader>gst ·· Remove Tags     │",
+				"│   <leader>do ·········· Debug Step Over       <leader>gie ·· Add if err      │",
+				"│   <leader>dgt ········· Debug Go Test         <leader>gtj ·· Add Test        │",
+				"│   <leader>dgl ········· Debug Last Test       <leader>gcf ·· Generate Comment│",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
