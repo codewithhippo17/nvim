@@ -15,8 +15,10 @@ require("lazy").setup({
 	require("plugins.utils.lsp"),
 	require("plugins.utils.cmp"),
 	require("plugins.utils.formatting"),
+	require("plugins.utils.fzf"), -- FZF-Lua fuzzy finder
 	require("plugins.utils.git"),
 	require("plugins.utils.go"), -- Added Go support
+	require("plugins.utils.godoc"), -- Go documentation browser
 	require("plugins.utils.auto-save"),
 	require("plugins.utils.auto_session"),
 	require("plugins.utils.header"),
