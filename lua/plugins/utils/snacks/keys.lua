@@ -87,33 +87,6 @@ local keys = {
 		desc = "🚨 Show Last Error",
 	},
 	{
-		"<leader>ew", -- Window diagnostics
-		function()
-			-- Diagnostic function for window debugging
-			local current_win = vim.api.nvim_get_current_win()
-			local buf = vim.api.nvim_get_current_buf()
-			local win_config = vim.api.nvim_win_get_config(current_win)
-			local win_valid = vim.api.nvim_win_is_valid(current_win)
-			local buf_valid = vim.api.nvim_buf_is_valid(buf)
-			
-			local info = {
-				"Window Diagnostics:",
-				"==================",
-				"Current Window: " .. current_win,
-				"Window Valid: " .. tostring(win_valid),
-				"Current Buffer: " .. buf,
-				"Buffer Valid: " .. tostring(buf_valid),
-				"Window Relative: " .. (win_config.relative or "none"),
-				"Window Type: " .. (win_config.relative == "" and "normal" or "floating"),
-				"Total Windows: " .. vim.fn.winnr('$'),
-				"Total Buffers: " .. #vim.fn.getbufinfo({buflisted = 1}),
-			}
-			
-			vim.notify(table.concat(info, "\n"), vim.log.levels.INFO)
-		end,
-		desc = "🪟 Window Diagnostics",
-	},
-	{
 		"<leader>e",
 		function()
 			Snacks.explorer()
@@ -418,55 +391,26 @@ local keys = {
 	{
 		"<leader>0", -- Home row key for quick access
 		function()
-			-- Safer dashboard return with proper window cleanup
-			pcall(function()
-				-- First ensure we're not in a floating window that could cause issues
-				local current_win = vim.api.nvim_get_current_win()
-				local win_config = vim.api.nvim_win_get_config(current_win)
-				
-				-- If in a floating window, close it first
-				if win_config.relative ~= "" then
-					vim.api.nvim_win_close(current_win, true)
-				end
-				
-				-- Close all buffers safely
-				vim.cmd("silent! %bdelete!")
-				
-				-- Small delay to ensure cleanup is complete
-				vim.defer_fn(function()
-					-- Ensure we have a valid window before opening dashboard
-					if vim.api.nvim_get_current_win() and vim.api.nvim_win_is_valid(vim.api.nvim_get_current_win()) then
-						Snacks.dashboard()
-					else
-						-- Fallback: create new window then open dashboard
-						vim.cmd("enew")
-						vim.defer_fn(function()
-							Snacks.dashboard()
-						end, 50)
-					end
-				end, 100)
-			end)
+			-- Close all buffers and return to dashboard
+			vim.cmd("silent! %bdelete!")
+			Snacks.dashboard()
 		end,
 		desc = "🏠 Return to Dashboard (Close All)",
 	},
 	{
 		"<leader>bd",
 		function()
-			-- Close all buffers except current with better error handling
-			pcall(function()
-				vim.cmd("silent! %bdelete|edit#|bdelete#")
-			end)
+			-- Close all buffers except current
+			vim.cmd("silent! %bdelete|edit#|bdelete#")
 		end,
 		desc = "Close All Buffers (Keep Current)",
 	},
 	{
 		"<leader>bD",
 		function()
-			-- Force close all buffers with proper error handling
-			pcall(function()
-				vim.cmd("silent! bufdo bdelete!")
-				vim.cmd("enew") -- Create new empty buffer
-			end)
+			-- Force close all buffers
+			vim.cmd("silent! bufdo bdelete!")
+			vim.cmd("enew") -- Create new empty buffer
 		end,
 		desc = "Force Close All Buffers",
 	},
@@ -655,7 +599,6 @@ local keys = {
 				"│   <leader>sr ·········· Resume Search         <leader>sf Find & Replace     │",
 				"│   <leader>h  ·········· Command History       <leader>m  Messages/Errors    │",
 				"│   <leader>M  ·········· Enhanced Messages     <leader>em Last Error         │",
-				"│                                                <leader>ew Window Diagnostics │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",

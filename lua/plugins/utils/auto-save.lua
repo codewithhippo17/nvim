@@ -4,13 +4,11 @@ return {
 	event = { "InsertLeave", "TextChanged" },
 	opts = {
 		enabled = true,
-		execution_message = {
-			enabled = false, -- Don't show save messages
-		},
+		-- execution_message removed - deprecated option
 		trigger_events = {
 			immediate_save = { "BufLeave", "FocusLost" },
 			defer_save = { "InsertLeave", "TextChanged" },
-			cancel_defered_save = { "InsertEnter" },
+			cancel_deferred_save = { "InsertEnter" }, -- Fixed: defered → deferred
 		},
 		condition = function(buf)
 			-- Don't save for certain file types
