@@ -328,12 +328,120 @@ local keys = {
 		end,
 		desc = "Notification History",
 	},
+	
+	-- Navigation & Buffer Management
+	{
+		"<leader>0", -- Home row key for quick access
+		function()
+			-- Close all buffers and return to dashboard
+			vim.cmd("silent! %bdelete!")
+			vim.cmd("Snacks dashboard")
+		end,
+		desc = "🏠 Return to Dashboard (Close All)",
+	},
+	{
+		"<leader>bd",
+		function()
+			-- Close all buffers except current
+			vim.cmd("silent! %bdelete|edit#|bdelete#")
+		end,
+		desc = "Close All Buffers (Keep Current)",
+	},
+	{
+		"<leader>bD",
+		function()
+			-- Force close all buffers
+			vim.cmd("silent! bufdo bdelete!")
+			vim.cmd("enew") -- Create new empty buffer
+		end,
+		desc = "Force Close All Buffers",
+	},
 	{
 		"<leader>x",
 		function()
 			Snacks.bufdelete()
 		end,
 		desc = "Delete Buffer",
+	},
+	
+	-- Project Navigation with Directory Change
+	{
+		"<leader>p1",
+		function()
+			local project_path = "~/dev/cpp/CPP_Module_01"
+			vim.cmd("cd " .. project_path)
+			vim.cmd("Snacks explorer")
+			print("📁 Switched to: CPP_Module_01")
+		end,
+		desc = "📁 Project: CPP_Module_01",
+	},
+	{
+		"<leader>p0",
+		function()
+			local project_path = "~/dev/cpp/CPP_Module_00"
+			vim.cmd("cd " .. project_path)
+			vim.cmd("Snacks explorer")
+			print("📁 Switched to: CPP_Module_00")
+		end,
+		desc = "📁 Project: CPP_Module_00",
+	},
+	{
+		"<leader>pc",
+		function()
+			local project_path = "~/dev/cpp"
+			vim.cmd("cd " .. project_path)
+			vim.cmd("Snacks explorer")
+			print("📁 Switched to: cpp projects")
+		end,
+		desc = "📁 Project: CPP Projects",
+	},
+	{
+		"<leader>pg",
+		function()
+			local project_path = "~/dev/letsGo"
+			vim.cmd("cd " .. project_path)
+			vim.cmd("Snacks explorer")
+			print("📁 Switched to: Go projects")
+		end,
+		desc = "📁 Project: Go Projects",
+	},
+	{
+		"<leader>pv",
+		function()
+			local project_path = "~/.config/nvim"
+			vim.cmd("cd " .. project_path)
+			vim.cmd("Snacks explorer")
+			print("📁 Switched to: Neovim config")
+		end,
+		desc = "📁 Project: Neovim Config",
+	},
+	{
+		"<leader>pp",
+		function()
+			-- Smart project picker with directory change
+			Snacks.picker.files({ cwd = "~/dev" }, {
+				prompt = "Select Project Directory> ",
+				formatters = {
+					file = {
+						filename_first = true,
+					},
+				},
+				actions = {
+					["default"] = function(item)
+						-- Extract directory from selected file
+						local dir = vim.fn.fnamemodify(item.path, ":h")
+						-- If it's a file in a project, go to project root
+						if dir:match("/ex%d+") then
+							dir = dir:match("(.+)/ex%d+")
+						end
+						vim.cmd("cd " .. dir)
+						vim.cmd("Snacks explorer")
+						print("📁 Switched to: " .. vim.fn.fnamemodify(dir, ":t"))
+					end,
+				},
+			})
+		end,
+		desc = "📁 Smart Project Picker",
 	},
 	{
 		"<leader>r",
@@ -374,10 +482,21 @@ local keys = {
 				"│                                                                             │",
 				"│   <leader>f  Smart Find Files      <leader>e  ·········· File Explorer      │",
 				"│   <leader>b  Buffers               <leader>t  ·········· Terminal           │",
-				"│   <leader>   Live Grep             <A-e>      ·········· Float Terminal     │",
+				"│   <leader>   Live Grep             <leader>0  ·········· Return to Dashboard │",
 				"│   <S-h/l>    Prev/Next Buffer      <leader>x  ·········· Delete Buffer      │",
-				"│   <S-j/k>    Move Buffer Up/Down   <Tab/S-Tab>           Next/Prev Tab      │",
-				"│   <leader>bd Close Buffer          <Esc>      ·········· Clear Search      │",
+				"│   <S-j/k>    Move Buffer Up/Down   <leader>bd ·········· Close All Buffers  │",
+				"│   <leader>bD Force Close All       <Esc>      ·········· Clear Search       │",
+				"│                                                                             │",
+				"╰─────────────────────────────────────────────────────────────────────────────╯",
+				"",
+				"╭─────────────────────────────────────────────────────────────────────────────╮",
+				"│                              🚀 PROJECT NAVIGATION                          │",
+				"├─────────────────────────────────────────────────────────────────────────────┤",
+				"│                                                                             │",
+				"│   <leader>pp ·········· Smart Project Picker <leader>p1  ··· CPP Module 01  │",
+				"│   <leader>p0 ·········· CPP Module 00        <leader>pc  ··· CPP Projects   │",
+				"│   <leader>pg ·········· Go Projects          <leader>pv  ··· Neovim Config  │",
+				"│   (All commands change directory and open file explorer)                   │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
