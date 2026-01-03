@@ -30,10 +30,10 @@ return {
 
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate godoc go", -- install/update parsers including godoc
+		build = ":TSUpdate go", -- install/update go parser only
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {
-			ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "python", "go", "godoc" },
+			ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "python", "go" },
 			auto_install = true,
 			highlight = {
 				enable = true,
@@ -42,27 +42,6 @@ return {
 			indent = { enable = true, disable = { "ruby" } },
 		},
 		config = function(_, opts)
-			-- Configure godoc parser before setting up treesitter
-			require("nvim-treesitter.parsers").godoc = {
-				install_info = {
-					url = "https://github.com/fredrikaverpil/tree-sitter-godoc",
-					files = { "src/parser.c" },
-					version = "*",
-				},
-				filetype = "godoc",
-			}
-
-			-- Map godoc filetype to use godoc parser
-			vim.treesitter.language.register('godoc', 'godoc')
-
-			-- Enable godoc filetype for .godoc files (optional)
-			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-				pattern = "*.godoc",
-				callback = function()
-					vim.bo.filetype = "godoc"
-				end,
-			})
-
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},
