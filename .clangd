@@ -1,0 +1,45 @@
+CompileFlags:
+  Add: 
+    - -Wall
+    - -Wextra
+    - -std=c++17
+    - -isystem/usr/include
+    - -isystem/usr/local/include
+    - -isystem/usr/include/c++/11
+    - -isystem/usr/include/x86_64-linux-gnu/c++/11
+    - -D__STDC_FORMAT_MACROS
+    - -D__STDC_LIMIT_MACROS
+    - -D__STDC_CONSTANT_MACROS
+  Remove: 
+    - -W*
+    - -Wdeprecated*
+    - -Wmissing*
+
+Diagnostics:
+  Suppress: 
+    - "includes are not stored properly"
+    - "declaration must be enclosed within the LIBC_NAMESPACE_DECL" 
+    - "*libc*"
+    - "*LIBC_NAMESPACE*"
+    - "*__llvm_libc*"
+    - "*stored properly*"
+    - "*within 'LIBC_NAMESPACE_DECL'*"
+  UnusedIncludes: None
+  MissingIncludes: None
+  ClangTidy:
+    Add: []
+    Remove:
+      - "*"
+
+Index:
+  Background: Skip
+  StandardLibrary: No
+
+InlayHints:
+  Enabled: false
+
+Hover:
+  ShowAKA: false
+
+Completion:
+  AllScopes: false

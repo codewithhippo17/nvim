@@ -12,12 +12,52 @@ return {
 		},
 		config = function()
 			vim.diagnostic.config({
-				virtual_text = true,
-				signs = true,
-				underline = true,
+				virtual_text = {
+					severity = { min = vim.diagnostic.severity.ERROR },
+					spacing = 4,
+					prefix = "●",
+				},
+				signs = {
+					severity = { min = vim.diagnostic.severity.WARN },
+				},
+				underline = {
+					severity = { min = vim.diagnostic.severity.ERROR },
+				},
 				update_in_insert = false,
 				severity_sort = true,
+				float = {
+					border = 'rounded',
+					source = 'always',
+					severity = { min = vim.diagnostic.severity.WARN },
+				},
 			})
+
+			-- Filter out specific clangd warnings - more aggressive approach
+			local function filter_clangd_diagnostics(_, result, ctx, config)
+				if not result or not result.diagnostics then
+					return vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+				end
+
+				local filtered_diagnostics = {}
+				for _, diagnostic in ipairs(result.diagnostics) do
+					local message = diagnostic.message:lower()
+					local should_skip = 
+						message:match("includes are not stored properly") or
+						message:match("declaration must be enclosed within the libc_namespace_decl") or
+						message:match("libc_namespace") or
+						message:match("__llvm_libc::") or
+						message:match("within 'libc_namespace_decl'") or
+						message:match("stored properly") or
+						message:find("libc", 1, true)
+					
+					if not should_skip then
+						table.insert(filtered_diagnostics, diagnostic)
+					end
+				end
+
+				result.diagnostics = filtered_diagnostics
+				return vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+			end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
@@ -166,11 +206,42 @@ return {
 					},
 				},
 				clangd = {
-					cmd = { "clangd", "--background-index", "--clang-tidy" },
-					root_dir = require("lspconfig").util.root_pattern("Makefile", ".git", "compile_commands.json"),
+					cmd = { 
+						vim.fn.stdpath("data") .. "/mason/bin/clangd", 
+						"--background-index", 
+						"--clang-tidy", 
+						"--header-insertion=never",
+						"--completion-style=detailed",
+						"--function-arg-placeholders",
+						"--fallback-style=llvm",
+						"--pch-storage=memory",
+						"--all-scopes-completion",
+						"--cross-file-rename",
+						"--log=error",
+						"--limit-results=100",
+						"--offset-encoding=utf-16"
+					},
+					root_dir = require("lspconfig").util.root_pattern(
+						".clangd",
+						".clang-tidy", 
+						".clang-format",
+						"compile_commands.json", 
+						"compile_flags.txt", 
+						"configure.ac", 
+						"Makefile",
+						".git"
+					),
 					capabilities = vim.tbl_deep_extend("force", capabilities, {
 						offsetEncoding = { "utf-16" },
 					}),
+					init_options = {
+						usePlaceholders = true,
+						completeUnimported = true,
+						clangdFileStatus = true,
+					},
+					handlers = {
+						["textDocument/publishDiagnostics"] = filter_clangd_diagnostics,
+					},
 				},
 				lua_ls = {
 					settings = {
