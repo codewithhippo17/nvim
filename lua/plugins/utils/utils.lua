@@ -142,19 +142,7 @@ return {
 		end,
 	},
 
-	{
-		"github/copilot.vim",
-		event = "InsertEnter",
-		config = function()
-			-- Copilot keymaps (ergonomic Alt combinations)
-			vim.keymap.set("i", "<A-a>", 'copilot#Accept("<CR>")', { expr = true, replace_keycodes = false })
-			vim.keymap.set("i", "<A-w>", "<Plug>(copilot-accept-word)")
-			vim.keymap.set("i", "<A-j>", "<Plug>(copilot-next)")
-			vim.keymap.set("i", "<A-k>", "<Plug>(copilot-previous)")
-			vim.g.copilot_no_tab_map = true
-			vim.g.copilot_assume_mapped = true
-		end,
-	},
+
 
 	{
 		"nvim-pack/nvim-spectre",

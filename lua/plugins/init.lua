@@ -26,6 +26,7 @@ require("lazy").setup({
 	require("plugins.utils.utils"),
 	require("plugins.utils.multi_edit"),
 	require("plugins.utils.opencode"),
+	require("plugins.utils.copilot"), -- GitHub Copilot integration
 	-- Visual multi (vim-visual-multi)
 	{
 		"mg979/vim-visual-multi",
