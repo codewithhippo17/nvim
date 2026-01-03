@@ -29,13 +29,112 @@ local keys = {
 		desc = "Command History",
 	},
 	
-	-- Error & Message Viewing
+	-- 🔍 DIAGNOSTICS & ERROR MANAGEMENT (Consolidated under <leader>d)
+	{
+		"<leader>dd",
+		function()
+			Snacks.picker.diagnostics()
+		end,
+		desc = "📋 All Diagnostics",
+	},
+	{
+		"<leader>df", 
+		function()
+			vim.diagnostic.open_float()
+		end,
+		desc = "📋 Show Diagnostic Float",
+	},
+	{
+		"<leader>dq",
+		function()
+			vim.diagnostic.setloclist()
+		end,
+		desc = "📋 Diagnostic Quickfix",
+	},
+	{
+		"<leader>dm", -- Move last error message here
+		function()
+			-- Show last error message
+			local last_error = vim.v.errmsg
+			if last_error and last_error ~= "" then
+				vim.notify("Last Error: " .. last_error, vim.log.levels.ERROR)
+			else
+				vim.notify("No recent error messages", vim.log.levels.INFO)
+			end
+		end,
+		desc = "📋 Last Error Message",
+	},
+	{
+		"<leader>dw", -- Move window diagnostics here
+		function()
+			-- Diagnostic function for window debugging
+			local current_win = vim.api.nvim_get_current_win()
+			local buf = vim.api.nvim_get_current_buf()
+			local win_config = vim.api.nvim_win_get_config(current_win)
+			local win_valid = vim.api.nvim_win_is_valid(current_win)
+			local buf_valid = vim.api.nvim_buf_is_valid(buf)
+			
+			local info = {
+				"Window Diagnostics:",
+				"==================",
+				"Current Window: " .. current_win,
+				"Window Valid: " .. tostring(win_valid),
+				"Current Buffer: " .. buf,
+				"Buffer Valid: " .. tostring(buf_valid),
+				"Window Relative: " .. (win_config.relative or "none"),
+				"Window Type: " .. (win_config.relative == "" and "normal" or "floating"),
+				"Total Windows: " .. vim.fn.winnr('$'),
+				"Total Buffers: " .. #vim.fn.getbufinfo({buflisted = 1}),
+			}
+			
+			vim.notify(table.concat(info, "\n"), vim.log.levels.INFO)
+		end,
+		desc = "🪟 Window State Diagnostics",
+	},
+	
+	-- Error & Message Viewing (keep separate from diagnostics)
 	{
 		"<leader>m",
 		function()
 			vim.cmd("messages")
 		end,
 		desc = "📜 View All Messages/Errors",
+	},
+	{
+		"<leader>M",
+		function()
+			-- Enhanced messages viewer with better formatting
+			local messages = vim.fn.execute("messages")
+			local lines = vim.split(messages, "\n")
+			
+			-- Create buffer with messages
+			local buf = vim.api.nvim_create_buf(false, true)
+			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+			vim.bo[buf].filetype = "messages"
+			vim.bo[buf].modifiable = false
+			
+			-- Open in floating window
+			Snacks.win({
+				buf = buf,
+				width = 0.9,
+				height = 0.7,
+				border = "rounded",
+				title = " 📜 Vim Messages & Errors ",
+				title_pos = "center",
+				wo = {
+					wrap = true,
+					signcolumn = "no",
+					number = true,
+					relativenumber = false,
+				},
+				keys = {
+					q = "close",
+					["<Esc>"] = "close",
+					["<C-c>"] = "close",
+				},
+			})
+		end,
+		desc = "📜 Enhanced Messages Viewer",
 	},
 	{
 		"<leader>M",
@@ -220,13 +319,12 @@ local keys = {
 		desc = "Resume Last Search",
 	},
 
-	-- LSP & Core Functions (ergonomic)
 	{
-		"<leader>ls",
+		"<leader>ds",
 		function()
 			Snacks.picker.lsp_symbols()
 		end,
-		desc = "LSP Document Symbols",
+		desc = "📋 Document Symbols",
 	},
 	{
 		"<leader>lw",
@@ -259,45 +357,45 @@ local keys = {
 		desc = "Go to Manual (word under cursor)",
 	},
 	
-	-- Go Development (Debug & Utilities)
+	-- 🚀 GO DEBUGGING (Moved to <leader>D to avoid conflicts)
 	{
-		"<leader>db",
+		"<leader>Db",
 		"<cmd>DapToggleBreakpoint<CR>",
 		desc = "Debug: Toggle Breakpoint",
 		ft = { "go" },
 	},
 	{
-		"<leader>dc",
+		"<leader>Dc",
 		"<cmd>DapContinue<CR>",
 		desc = "Debug: Continue",
 		ft = { "go" },
 	},
 	{
-		"<leader>di",
+		"<leader>Di",
 		"<cmd>DapStepInto<CR>",
 		desc = "Debug: Step Into",
 		ft = { "go" },
 	},
 	{
-		"<leader>do",
+		"<leader>Do",
 		"<cmd>DapStepOver<CR>",
 		desc = "Debug: Step Over", 
 		ft = { "go" },
 	},
 	{
-		"<leader>dO",
+		"<leader>DO",
 		"<cmd>DapStepOut<CR>",
 		desc = "Debug: Step Out",
 		ft = { "go" },
 	},
 	{
-		"<leader>dr",
+		"<leader>Dr",
 		"<cmd>DapRepl<CR>",
 		desc = "Debug: Open REPL",
 		ft = { "go" },
 	},
 	{
-		"<leader>dus",
+		"<leader>Dus",
 		function()
 			local widgets = require("dap.ui.widgets")
 			local sidebar = widgets.sidebar(widgets.scopes)
@@ -307,7 +405,7 @@ local keys = {
 		ft = { "go" },
 	},
 	{
-		"<leader>dgt",
+		"<leader>Dgt",
 		function()
 			require("dap-go").debug_test()
 		end,
@@ -315,7 +413,7 @@ local keys = {
 		ft = { "go" },
 	},
 	{
-		"<leader>dgl",
+		"<leader>Dgl",
 		function()
 			require("dap-go").debug_last()
 		end,
@@ -627,12 +725,39 @@ local keys = {
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
 				"╭─────────────────────────────────────────────────────────────────────────────╮",
-				"│                            ⚡ DIAGNOSTICS & ERRORS                          │",
+				"│                              ⚡ DIAGNOSTICS & DEBUGGING                      │",
 				"├─────────────────────────────────────────────────────────────────────────────┤",
 				"│                                                                             │",
-				"│   <leader>j  ········· Next Diagnostic       <leader>dd ··· Show Diagnostic │",
-				"│   <leader>k  ········· Previous Diagnostic   <leader>q  ··· Quickfix List   │",
-				"│   <leader>ud ········· Toggle Diagnostics                                   │",
+				"│   <leader>j  ········· Next Diagnostic       <leader>dd ··· All Diagnostics │",
+				"│   <leader>k  ········· Previous Diagnostic   <leader>df ··· Float Diagnostic│",
+				"│   <leader>dq ········· Diagnostic Quickfix   <leader>dm ··· Last Error Msg  │",
+				"│   <leader>dw ········· Window Diagnostics    <leader>ds ··· Document Symbols│",
+				"│                                                                             │",
+				"╰─────────────────────────────────────────────────────────────────────────────╯",
+				"",
+				"╭─────────────────────────────────────────────────────────────────────────────╮",
+				"│                             🚀 GO DEBUGGING (<leader>D)                     │",
+				"├─────────────────────────────────────────────────────────────────────────────┤",
+				"│                                                                             │",
+				"│   <leader>Db ·········· Debug Breakpoint      <leader>gsj ·· Add JSON Tags   │",
+				"│   <leader>Dc ·········· Debug Continue        <leader>gsy ·· Add YAML Tags   │",
+				"│   <leader>Di ·········· Debug Step Into       <leader>gst ·· Remove Tags     │",
+				"│   <leader>Do ·········· Debug Step Over       <leader>gie ·· Add if err      │",
+				"│   <leader>DO ·········· Debug Step Out        <leader>gtj ·· Add Test        │",
+				"│   <leader>Dr ·········· Debug REPL            <leader>gta ·· Add All Tests   │",
+				"│   <leader>Dus ········· Debug Open Sidebar    <leader>gtf ·· Add Export Tests│",
+				"│   <leader>Dgt ········· Debug Go Test         <leader>gcf ·· Generate Comment│",
+				"│   <leader>Dgl ········· Debug Last Test       <leader>gD  ·· Go Doc (word)   │",
+				"│                                                                             │",
+				"╰─────────────────────────────────────────────────────────────────────────────╯",
+				"",
+				"╭─────────────────────────────────────────────────────────────────────────────╮",
+				"│                            🪟 WINDOW MANAGEMENT                            │",
+				"├─────────────────────────────────────────────────────────────────────────────┤",
+				"│                                                                             │",
+				"│   <C-h/l>    ·········· Focus Left/Right      <C-A-h/l>      Resize Width   │",
+				"│   <C-j/k>    ·········· Focus Up/Down         <C-A-j/k>      Resize Height  │",
+				"│   <Esc><Esc> ·········· Exit Terminal Mode                                  │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",

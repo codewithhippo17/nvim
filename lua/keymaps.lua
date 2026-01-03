@@ -13,8 +13,10 @@ vim.keymap.set("n", "<leader>k", function()
 	vim.diagnostic.goto_prev({ count = vim.v.count1 })
 end, { desc = "Previous Diagnostic(s)" })
 
-vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
-vim.keymap.set("n", "<leader>dq", vim.diagnostic.setloclist, { desc = "Diagnostic Quickfix" })
+-- Diagnostic Functions (consolidated under <leader>d)
+vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "📋 Show Diagnostic Float" })
+vim.keymap.set("n", "<leader>dq", vim.diagnostic.setloclist, { desc = "📋 Diagnostic Quickfix" })
+vim.keymap.set("n", "<leader>da", vim.diagnostic.get, { desc = "📋 Get All Diagnostics" })
 
 -- Terminal mode escape (enhanced with Alt-e for consistency)
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

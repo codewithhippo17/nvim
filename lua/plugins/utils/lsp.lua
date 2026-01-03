@@ -99,7 +99,7 @@ return {
 						end
 					end, "Go to Type Definition")
 					
-					-- Document & Workspace symbols (with fallback)
+					-- Document & Workspace symbols (with fallback) - moved to diagnostics
 					map("<leader>ds", function() 
 						if pcall(require, "snacks") and require("snacks").picker then
 							require("snacks").picker.lsp_symbols()
