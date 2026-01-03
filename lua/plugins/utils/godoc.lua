@@ -32,7 +32,7 @@ return {
 						get_syntax_info = function()
 							return {
 								filetype = "godoc",
-								language = "godoc", -- Enable tree-sitter godoc parser
+								language = "go", -- Use standard go parser instead of non-existent godoc
 							}
 						end,
 					},
