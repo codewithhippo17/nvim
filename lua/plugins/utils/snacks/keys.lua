@@ -422,84 +422,112 @@ local keys = {
 		desc = "Delete Buffer",
 	},
 	
-	-- Project Navigation with Directory Change
+	-- Project Directory Navigation (Single FZF Picker)
 	{
-		"<leader>p1",
+		"<leader>p",
 		function()
-			local project_path = "~/dev/cpp/CPP_Module_01"
-			vim.cmd("cd " .. project_path)
-			Snacks.explorer()
-			print("📁 Switched to: CPP_Module_01")
-		end,
-		desc = "📁 Project: CPP_Module_01",
-	},
-	{
-		"<leader>p0",
-		function()
-			local project_path = "~/dev/cpp/CPP_Module_00"
-			vim.cmd("cd " .. project_path)
-			Snacks.explorer()
-			print("📁 Switched to: CPP_Module_00")
-		end,
-		desc = "📁 Project: CPP_Module_00",
-	},
-	{
-		"<leader>pc",
-		function()
-			local project_path = "~/dev/cpp"
-			vim.cmd("cd " .. project_path)
-			Snacks.explorer()
-			print("📁 Switched to: cpp projects")
-		end,
-		desc = "📁 Project: CPP Projects",
-	},
-	{
-		"<leader>pg",
-		function()
-			local project_path = "~/dev/letsGo"
-			vim.cmd("cd " .. project_path)
-			Snacks.explorer()
-			print("📁 Switched to: Go projects")
-		end,
-		desc = "📁 Project: Go Projects",
-	},
-	{
-		"<leader>pv",
-		function()
-			local project_path = "~/.config/nvim"
-			vim.cmd("cd " .. project_path)
-			Snacks.explorer()
-			print("📁 Switched to: Neovim config")
-		end,
-		desc = "📁 Project: Neovim Config",
-	},
-	{
-		"<leader>pp",
-		function()
-			-- Smart project picker with directory change
-			Snacks.picker.files({ cwd = "~/dev" }, {
-				prompt = "Select Project Directory> ",
-				formatters = {
-					file = {
-						filename_first = true,
-					},
-				},
-				actions = {
-					["default"] = function(item)
-						-- Extract directory from selected file
-						local dir = vim.fn.fnamemodify(item.path, ":h")
-						-- If it's a file in a project, go to project root
-						if dir:match("/ex%d+") then
-							dir = dir:match("(.+)/ex%d+")
+			-- Create list of project directories to search
+			local project_roots = {
+				vim.fn.expand("~/dev"),
+				vim.fn.expand("~/.config"),
+			}
+			
+			-- Function to get all directories recursively (max depth 3)
+			local function get_directories(path, depth, max_depth)
+				depth = depth or 1
+				max_depth = max_depth or 3
+				local dirs = {}
+				
+				if depth > max_depth then
+					return dirs
+				end
+				
+				local handle = vim.loop.fs_scandir(path)
+				if handle then
+					local name, type = vim.loop.fs_scandir_next(handle)
+					while name do
+						if type == "directory" and not name:match("^%.") then
+							local full_path = path .. "/" .. name
+							table.insert(dirs, full_path)
+							-- Recursively get subdirectories
+							if depth < max_depth then
+								local subdirs = get_directories(full_path, depth + 1, max_depth)
+								for _, subdir in ipairs(subdirs) do
+									table.insert(dirs, subdir)
+								end
+							end
 						end
-						vim.cmd("cd " .. dir)
-						Snacks.explorer()
-						print("📁 Switched to: " .. vim.fn.fnamemodify(dir, ":t"))
+						name, type = vim.loop.fs_scandir_next(handle)
+					end
+				end
+				
+				return dirs
+			end
+			
+			-- Collect all project directories
+			local all_dirs = {}
+			for _, root in ipairs(project_roots) do
+				if vim.loop.fs_stat(root) then
+					table.insert(all_dirs, root) -- Include root itself
+					local subdirs = get_directories(root)
+					for _, dir in ipairs(subdirs) do
+						table.insert(all_dirs, dir)
+					end
+				end
+			end
+			
+			-- Format directories for display
+			local formatted_dirs = {}
+			for _, dir in ipairs(all_dirs) do
+				local display_name = dir:gsub(vim.fn.expand("~"), "~")
+				local basename = vim.fn.fnamemodify(dir, ":t")
+				local parent = vim.fn.fnamemodify(dir, ":h:t")
+				
+				-- Create a nice display format: "basename (parent/path)"
+				local display = string.format("%-20s %s", basename, display_name)
+				table.insert(formatted_dirs, {
+					display = display,
+					path = dir,
+					basename = basename
+				})
+			end
+			
+			-- Sort by basename for easier searching
+			table.sort(formatted_dirs, function(a, b)
+				return a.basename:lower() < b.basename:lower()
+			end)
+			
+			-- Use fzf-lua for directory selection
+			require("fzf-lua").fzf_exec(
+				vim.tbl_map(function(item) return item.display end, formatted_dirs),
+				{
+					prompt = "Project Directory❯ ",
+					preview = function(selected)
+						-- Find the corresponding directory
+						for _, item in ipairs(formatted_dirs) do
+							if item.display == selected[1] then
+								return vim.fn.system("ls -la " .. vim.fn.shellescape(item.path))
+							end
+						end
+						return "Directory not found"
 					end,
-				},
-			})
+					actions = {
+						["default"] = function(selected)
+							-- Find the corresponding directory
+							for _, item in ipairs(formatted_dirs) do
+								if item.display == selected[1] then
+									vim.cmd("cd " .. item.path)
+									Snacks.explorer()
+									vim.notify("📁 Switched to: " .. item.basename, vim.log.levels.INFO)
+									break
+								end
+							end
+						end,
+					},
+				}
+			)
 		end,
-		desc = "📁 Smart Project Picker",
+		desc = "📁 FZF Project Directory Picker",
 	},
 	{
 		"<leader>r",
@@ -551,10 +579,11 @@ local keys = {
 				"│                              🚀 PROJECT NAVIGATION                          │",
 				"├─────────────────────────────────────────────────────────────────────────────┤",
 				"│                                                                             │",
-				"│   <leader>pp ·········· Smart Project Picker <leader>p1  ··· CPP Module 01  │",
-				"│   <leader>p0 ·········· CPP Module 00        <leader>pc  ··· CPP Projects   │",
-				"│   <leader>pg ·········· Go Projects          <leader>pv  ··· Neovim Config  │",
-				"│   (All commands change directory and open file explorer)                   │",
+				"│   <leader>p  ·········· FZF Project Directory Picker                        │",
+				"│                         (Searches ~/dev and ~/.config recursively)         │",
+				"│                         - Shows directories only, not files                 │",
+				"│                         - Changes working directory automatically           │",
+				"│                         - Opens file explorer after selection              │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
