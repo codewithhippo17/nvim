@@ -28,6 +28,64 @@ local keys = {
 		end,
 		desc = "Command History",
 	},
+	
+	-- Error & Message Viewing
+	{
+		"<leader>m",
+		function()
+			vim.cmd("messages")
+		end,
+		desc = "📜 View All Messages/Errors",
+	},
+	{
+		"<leader>M",
+		function()
+			-- Enhanced messages viewer with better formatting
+			local messages = vim.fn.execute("messages")
+			local lines = vim.split(messages, "\n")
+			
+			-- Create buffer with messages
+			local buf = vim.api.nvim_create_buf(false, true)
+			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+			vim.bo[buf].filetype = "messages"
+			vim.bo[buf].modifiable = false
+			
+			-- Open in floating window
+			Snacks.win({
+				buf = buf,
+				width = 0.9,
+				height = 0.7,
+				border = "rounded",
+				title = " 📜 Vim Messages & Errors ",
+				title_pos = "center",
+				wo = {
+					wrap = true,
+					signcolumn = "no",
+					number = true,
+					relativenumber = false,
+				},
+				keys = {
+					q = "close",
+					["<Esc>"] = "close",
+					["<C-c>"] = "close",
+				},
+			})
+		end,
+		desc = "📜 Enhanced Messages Viewer",
+	},
+	{
+		"<leader>em", 
+		function()
+			-- Show last error message
+			local last_error = vim.v.errmsg
+			if last_error and last_error ~= "" then
+				vim.notify("Last Error: " .. last_error, vim.log.levels.ERROR)
+			else
+				vim.notify("No recent error messages", vim.log.levels.INFO)
+			end
+		end,
+		desc = "🚨 Show Last Error",
+	},
 	{
 		"<leader>e",
 		function()
@@ -335,7 +393,7 @@ local keys = {
 		function()
 			-- Close all buffers and return to dashboard
 			vim.cmd("silent! %bdelete!")
-			vim.cmd("Snacks dashboard")
+			Snacks.dashboard()
 		end,
 		desc = "🏠 Return to Dashboard (Close All)",
 	},
@@ -370,7 +428,7 @@ local keys = {
 		function()
 			local project_path = "~/dev/cpp/CPP_Module_01"
 			vim.cmd("cd " .. project_path)
-			vim.cmd("Snacks explorer")
+			Snacks.explorer()
 			print("📁 Switched to: CPP_Module_01")
 		end,
 		desc = "📁 Project: CPP_Module_01",
@@ -380,7 +438,7 @@ local keys = {
 		function()
 			local project_path = "~/dev/cpp/CPP_Module_00"
 			vim.cmd("cd " .. project_path)
-			vim.cmd("Snacks explorer")
+			Snacks.explorer()
 			print("📁 Switched to: CPP_Module_00")
 		end,
 		desc = "📁 Project: CPP_Module_00",
@@ -390,7 +448,7 @@ local keys = {
 		function()
 			local project_path = "~/dev/cpp"
 			vim.cmd("cd " .. project_path)
-			vim.cmd("Snacks explorer")
+			Snacks.explorer()
 			print("📁 Switched to: cpp projects")
 		end,
 		desc = "📁 Project: CPP Projects",
@@ -400,7 +458,7 @@ local keys = {
 		function()
 			local project_path = "~/dev/letsGo"
 			vim.cmd("cd " .. project_path)
-			vim.cmd("Snacks explorer")
+			Snacks.explorer()
 			print("📁 Switched to: Go projects")
 		end,
 		desc = "📁 Project: Go Projects",
@@ -410,7 +468,7 @@ local keys = {
 		function()
 			local project_path = "~/.config/nvim"
 			vim.cmd("cd " .. project_path)
-			vim.cmd("Snacks explorer")
+			Snacks.explorer()
 			print("📁 Switched to: Neovim config")
 		end,
 		desc = "📁 Project: Neovim Config",
@@ -435,7 +493,7 @@ local keys = {
 							dir = dir:match("(.+)/ex%d+")
 						end
 						vim.cmd("cd " .. dir)
-						vim.cmd("Snacks explorer")
+						Snacks.explorer()
 						print("📁 Switched to: " .. vim.fn.fnamemodify(dir, ":t"))
 					end,
 				},
@@ -510,7 +568,8 @@ local keys = {
 				"│   <leader>fg ·········· Find Git Files        <leader>sM All Manuals        │",
 				"│   <leader>sd ·········· Diagnostics           <leader>sk Keymaps            │",
 				"│   <leader>sr ·········· Resume Search         <leader>sf Find & Replace     │",
-				"│   <leader>h  ·········· Command History                                      │",
+				"│   <leader>h  ·········· Command History       <leader>m  Messages/Errors    │",
+				"│   <leader>M  ·········· Enhanced Messages     <leader>em Last Error         │",
 				"│                                                                             │",
 				"╰─────────────────────────────────────────────────────────────────────────────╯",
 				"",
